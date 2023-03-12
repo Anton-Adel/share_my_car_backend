@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Notifications\EmailVerification;
 class LoginController extends BaseController
 {
     public function login (Request $request)
@@ -19,6 +20,7 @@ class LoginController extends BaseController
             $user=User::where('email',$request->email)->first();
             $success['token']=$user->createToken('Anton')->accessToken;
             $success['data']=$user->all() ;
+            $user->notify(new EmailVerification());
             return $this->sendResponse($success,"User login successfully");
         }
         else

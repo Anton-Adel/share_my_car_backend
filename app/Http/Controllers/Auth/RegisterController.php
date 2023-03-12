@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\EmailVerification;
 
 class RegisterController extends BaseController
 {
@@ -113,8 +114,15 @@ class RegisterController extends BaseController
         $user->car_license_image =$path;
         $user->save();
 
-        $success['token']=$user->createToken('Anton')->accessToken;
+
+       // $success['token']=$user->createToken('Anton')->accessToken;
         $success['first_name']=$user->first_name;
+        $randomNumber = random_int(1000, 9000);
+
+        //dd($randomNumber);
+        $success['code']=$randomNumber;
+        $user['code']=$randomNumber;
+        $user->notify(new EmailVerification());
         return $this->sendResponse($success,"User registered successfully");
 
     }
