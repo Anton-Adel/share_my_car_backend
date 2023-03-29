@@ -20,7 +20,7 @@ class LoginController extends BaseController
             $user=User::where('email',$request->email)->first();
             $success['token']=$user->createToken('Anton')->accessToken;
             $success['data']=$user->all() ;
-            $user->notify(new EmailVerification());
+            //$user->notify(new EmailVerification());
             return $this->sendResponse($success,"User login successfully");
         }
         else

@@ -23,7 +23,7 @@ class RegisterController extends BaseController
             'last_name'=>'required|max:50',
             'gender'=>'required',
             'age'=>'required',
-            'id_number'=>'required|min:14', // ممكن تضرب بسبب ده
+            'id_number'=>'required|unique:users,id_number|min:14', // ممكن تضرب بسبب ده
             'personal_image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'card_image'=>'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'email'=>'required|unique:users,email',
@@ -40,6 +40,15 @@ class RegisterController extends BaseController
             'car_plate_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'car_license_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'c_password'=>'required|same:password',
+            'trip_gender'=>'required',
+            'smoke'=>'required',
+            'trip_smoke'=>'required',
+            'trip_music'=>'required',
+            'trip_conditioner'=>'required',
+            'trip_children'=>'required',
+            'trip_pets'=>'required',
+
+
 
         ]);
         if($validator->fails())
@@ -89,34 +98,42 @@ class RegisterController extends BaseController
                 'car_image'=>$car_image_name,
                 'car_plate_image'=>$car_plate_image_name,
                 'car_license_image'=>$car_license_image_name,
+                'trip_gender'=>$request->trip_gender,
+                'smoke'=>$request->smoke,
+                'trip_smoke'=>$request->trip_smoke,
+                'trip_music'=>$request->trip_music,
+                'trip_conditioner'=>$request->trip_conditioner,
+                'trip_children'=>$request->trip_children,
+                'trip_pets'=>$request->trip_pets
+
             ]
         );
         //Storage::disk('public/PersonalImages')->put($imageName,file_get_contents($request->personal_image));
         //personal image
         $request->personal_image->move(public_path('PersonalImages'), $personal_image_name);
-        $path="public/PersonalImages/$personal_image_name";
-        $user->personal_image =$path;
+        // $path="public/PersonalImages/$personal_image_name";
+        // $user->personal_image =$path;
         //card image
         $request->card_image->move(public_path('CardImages'), $card_image_name);
-        $path="public/CardImages/$card_image_name";
-        $user->card_image =$path;
+        // $path="public/CardImages/$card_image_name";
+        // $user->card_image =$path;
         //car image
         $request->car_image->move(public_path('CarImages'), $car_image_name);
-        $path="public/CarImages/$car_image_name";
-        $user->car_image =$path;
+        // $path="public/CarImages/$car_image_name";
+        // $user->car_image =$path;
         // plate image
         $request->car_plate_image->move(public_path('CarPlateImages'), $car_plate_image_name);
-        $path="public/CarPlateImages/$car_plate_image_name";
-        $user->car_plate_image =$path;
+        // $path="public/CarPlateImages/$car_plate_image_name";
+        // $user->car_plate_image =$path;
         // lincese image
         $request->car_license_image->move(public_path('CarLicenseImages'), $car_license_image_name);
-        $path="public/CarLicenseImages/$car_license_image_name";
-        $user->car_license_image =$path;
-        $user->save();
+        // $path="public/CarLicenseImages/$car_license_image_name";
+        // $user->car_license_image =$path;
+        // $user->save();
 
 
        // $success['token']=$user->createToken('Anton')->accessToken;
-        $success['first_name']=$user->first_name;
+        //$success['first_name']=$user->first_name;
         $randomNumber = random_int(1000, 9000);
 
         //dd($randomNumber);
@@ -126,4 +143,41 @@ class RegisterController extends BaseController
         return $this->sendResponse($success,"User registered successfully");
 
     }
+
+
+
+
+
+
+    public function send_code(Request $request )
+    {
+        $validator =Validator::make($request->all(),
+        [
+            'email'=>'required',
+        ]);
+        if($validator->fails())
+        {
+            return $this->sendError('Please your email is required',$validator->errors());
+        }
+        $input=$request->all();
+        $randomNumber = random_int(1000, 9000);
+
+        //dd($randomNumber);
+
+        $user= new User();
+        $success['code']=$randomNumber;
+        $user['code']=$randomNumber;
+        $user['email']=$request['email'];
+
+        $user->notify(new EmailVerification());
+        return $this->sendResponse($user,"User registered successfully");
+    }
+
+
+
+
+
+
+
+
 }

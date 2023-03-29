@@ -37,6 +37,13 @@ class User extends Authenticatable
         'car_plate_number',
         'car_image',
         'car_plate_image',
+        'trip_gender',
+        'smoke',
+        'trip_smoke',
+        'trip_music',
+        'trip_conditioner',
+        'trip_children',
+        'trip_pets',
         'car_license_image',
         'email_verified_at',
         'phone_verified_at'

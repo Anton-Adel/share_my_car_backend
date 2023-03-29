@@ -16,9 +16,9 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('first_name');
-            $table->string('last_name');
+             $table->string('last_name');
             $table->string('gender');
-            $table->integer('age');
+            $table->string('age');
             $table->string('id_number')->unique();
             $table->string('personal_image');
             $table->string('card_image');
@@ -35,6 +35,13 @@ class CreateUsersTable extends Migration
             $table->string('car_image')->nullable();
             $table->string('car_plate_image')->nullable();
             $table->string('car_license_image')->nullable();
+            $table->string('trip_gender');
+            $table->boolean('smoke');
+            $table->boolean('trip_smoke');
+            $table->boolean('trip_music');
+            $table->boolean('trip_conditioner');
+            $table->boolean('trip_children');
+            $table->boolean('trip_pets');
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
             $table->rememberToken();
