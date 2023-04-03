@@ -72,7 +72,7 @@ class RegisterController extends BaseController
             $car_license_image_name=Str::random(32).".".$request->car_license_image->getClientOriginalExtension();
         }
         $input=$request->all();
-        $hassed_password=Hash::make($input['password']);
+        $hashed_password=Hash::make($input['password']);
         //$user=User::create($input);
 
 
@@ -86,7 +86,7 @@ class RegisterController extends BaseController
                 'personal_image'=>$personal_image_name,
                 'card_image'=>$card_image_name,
                 'email'=>$request->email,
-                'password'=> $hassed_password,
+                'password'=> $hashed_password,
                 'country'=>$request->country,
                 'city'=>$request->city,
                 'address'=>$request->address,
@@ -134,12 +134,11 @@ class RegisterController extends BaseController
 
        // $success['token']=$user->createToken('Anton')->accessToken;
         //$success['first_name']=$user->first_name;
-        $randomNumber = random_int(1000, 9000);
-
-        //dd($randomNumber);
-        $success['code']=$randomNumber;
-        $user['code']=$randomNumber;
-        $user->notify(new EmailVerification());
+        // $randomNumber = random_int(1000, 9000);
+        // //dd($randomNumber);
+         $success['email']=$request['email'];
+        // $user['code']=$randomNumber;
+        // $user->notify(new EmailVerification());
         return $this->sendResponse($success,"User registered successfully");
 
     }
@@ -153,7 +152,10 @@ class RegisterController extends BaseController
     {
         $validator =Validator::make($request->all(),
         [
+            'first_name'=>$request->first_name,
+            'last_name'=>$request->last_name,
             'email'=>'required',
+
         ]);
         if($validator->fails())
         {
@@ -168,6 +170,8 @@ class RegisterController extends BaseController
         $success['code']=$randomNumber;
         $user['code']=$randomNumber;
         $user['email']=$request['email'];
+        $user['first_name']=$request['first_name'];
+        $user['last_name']=$request['last_name'];
 
         $user->notify(new EmailVerification());
         return $this->sendResponse($user,"User registered successfully");

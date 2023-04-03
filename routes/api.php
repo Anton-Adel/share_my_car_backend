@@ -27,5 +27,13 @@ Route::middleware('auth:api')->group(function()
 
     Route::resource('user', 'UserController');
 }
+
+);
+
+Route::middleware('auth:api')->group(function()
+{
+
+    Route::resource('trip', 'TripController');
+}
 );
 

@@ -22,7 +22,7 @@ class UserController extends BaseController
     public function index()
     {
         $users = User::all();
-        return $this->sendResponse($users,"User registered successfully");
+        return $this->sendResponse($users,"Users retrived successfully");
     }
 
     // /**
@@ -60,7 +60,7 @@ class UserController extends BaseController
             return $this->sendError('there is no user found');
         }
 
-        return $this->sendResponse($user,"User registered successfully");
+        return $this->sendResponse($user,"User retrived successfully");
     }
 
     // /**
@@ -216,7 +216,7 @@ class UserController extends BaseController
             $user->car_license_image= $car_license_image_name;
         }
         $user->save();
-        return $this->sendResponse($user,"User registered successfully");
+        return $this->sendResponse($user,"User updated successfully");
 
     //     if($request->card_image_name)
     //     {
