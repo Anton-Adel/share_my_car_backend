@@ -77,8 +77,36 @@ class TripController extends BaseController
         }
 
         return $this->sendResponse($trip,"Trip Created successfully");
+
+        // $trips =Trip::where('user_id',$id)->get();
+        // //$trips=Trip::find($id);
+        // if(is_null($trips))
+        // {
+        //     return $this->sendError('there is no trip found');
+        // }
+
+        // return $this->sendResponse($trips,"Trips get successfully");
     }
 
+    public function get_User_trips($id)
+    {
+        // $trip=Trip::find($id);
+        // if(is_null($trip))
+        // {
+        //     return $this->sendError('there is no trip found');
+        // }
+
+        // return $this->sendResponse($trip,"Trip Created successfully");
+
+        $trips =Trip::where('user_id',$id)->get();
+        //$trips=Trip::find($id);
+        if(is_null($trips))
+        {
+            return $this->sendError('there is no trip found');
+        }
+
+        return $this->sendResponse($trips,"Trips get successfully");
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -100,6 +128,7 @@ class TripController extends BaseController
     public function update(Request $request, $id)
     {
         $trip=Trip::find($id);
+        //return $this->sendResponse($trip,"trip updated successfully");
         if(is_null($trip))
         {
             return $this->sendError('there is no trip found');
