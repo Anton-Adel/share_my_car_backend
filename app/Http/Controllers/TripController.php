@@ -45,6 +45,7 @@ class TripController extends BaseController
             'start_time'=>'required',
             'end_time'=>'nullable',
             'user_id'=>'required', // ممكن تضرب بسبب ده
+            'user_cluster' => 'required'
         ]);
         if($validator->fails())
         {
@@ -52,14 +53,14 @@ class TripController extends BaseController
         }
         $input=$request->all();
         $trip=Trip::create($input);
-        $success['user_id']=$request->user_id;
-        $user=User::find($request->user_id);
-        if(is_null($user))
-        {
-            return $this->sendError('there is no user found');
-        }
-        $success['name']=$user->first_name;
-        return $this->sendResponse($success,"Trip Created successfully");
+        // $success['user_id']=$request->user_id;
+        // $user=User::find($request->user_id);
+        // if(is_null($user))
+        // {
+        //     return $this->sendError('there is no user found');
+        // }
+        // $success['name']=$user->first_name;
+        return $this->sendResponse($trip,"Trip Created successfully");
     }
 
     /**
@@ -140,6 +141,7 @@ class TripController extends BaseController
             'start_time'=>'required',
             'end_time'=>'nullable',
             'user_id'=>'required', // ممكن تضرب بسبب ده
+            'user_cluster' => 'required'
         ]);
         if($validator->fails())
         {
@@ -150,6 +152,7 @@ class TripController extends BaseController
         $trip->start_time= $request->start_time;
         $trip->end_time= $request->end_time;
         $trip->user_id= $request->user_id;
+        $trip->user_cluster= $request->user_cluster;
         $trip->save();
         return $this->sendResponse($trip,"trip updated successfully");
 

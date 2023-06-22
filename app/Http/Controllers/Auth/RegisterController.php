@@ -32,6 +32,7 @@ class RegisterController extends BaseController
             'city'=>'required',
             'address'=>'required',
             'phone_number'=>'required|unique:users,phone_number|digits_between:10,20',
+            'cluster_number'=>'nullable',
             'have_car'=>'required',
             'car_model'=>'nullable',
             'car_color'=>'nullable',
@@ -39,6 +40,7 @@ class RegisterController extends BaseController
             'car_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'car_plate_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'car_license_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
+            'car_seats'=>'nullable',
             'c_password'=>'required|same:password',
             'trip_gender'=>'required',
             'smoke'=>'required',
@@ -47,9 +49,6 @@ class RegisterController extends BaseController
             'trip_conditioner'=>'required',
             'trip_children'=>'required',
             'trip_pets'=>'required',
-
-
-
         ]);
         if($validator->fails())
         {
@@ -57,19 +56,25 @@ class RegisterController extends BaseController
         }
         $personal_image_name=Str::random(32).".".$request->personal_image->getClientOriginalExtension();
         $card_image_name=Str::random(32).".".$request->card_image->getClientOriginalExtension();
+        $car_image_name=null;
         if($request->car_image)
         {
             $car_image_name=Str::random(32).".".$request->car_image->getClientOriginalExtension();
+            $request->car_image->move(public_path('CarImages'), $car_image_name);
         }
 
+        $car_plate_image_name=null;
         if($request->car_plate_image)
         {
             $car_plate_image_name=Str::random(32).".".$request->car_plate_image->getClientOriginalExtension();
+            $request->car_plate_image->move(public_path('CarPlateImages'), $car_plate_image_name);
         }
 
+        $car_license_image_name=null;
         if($request->car_license_image)
         {
             $car_license_image_name=Str::random(32).".".$request->car_license_image->getClientOriginalExtension();
+            $request->car_license_image->move(public_path('CarLicenseImages'), $car_license_image_name);
         }
         $input=$request->all();
         $hashed_password=Hash::make($input['password']);
@@ -92,25 +97,27 @@ class RegisterController extends BaseController
                 'address'=>$request->address,
                 'phone_number'=>$request->phone_number,
                 'have_car'=>$request->have_car,
-                'car_model'=>$request->car_model,
-                'car_color'=>$request->car_color,
-                'car_plate_number'=>$request->car_plate_number,
+                'car_model'=>$request->car_model ,
+                'car_color'=>$request->car_color ,
+                'car_plate_number'=>$request->car_plate_number ,
                 'car_image'=>$car_image_name,
-                'car_plate_image'=>$car_plate_image_name,
-                'car_license_image'=>$car_license_image_name,
+                'car_plate_image'=>$car_plate_image_name ,
+                'car_license_image'=>$car_license_image_name ,
                 'trip_gender'=>$request->trip_gender,
                 'smoke'=>$request->smoke,
                 'trip_smoke'=>$request->trip_smoke,
                 'trip_music'=>$request->trip_music,
                 'trip_conditioner'=>$request->trip_conditioner,
                 'trip_children'=>$request->trip_children,
-                'trip_pets'=>$request->trip_pets
+                'trip_pets'=>$request->trip_pets,
+                'car_seats'=>$request->car_seats,
+                'cluster_number'=>$request->cluster_number
 
             ]
         );
-        //Storage::disk('public/PersonalImages')->put($imageName,file_get_contents($request->personal_image));
-        //personal image
-        $request->personal_image->move(public_path('PersonalImages'), $personal_image_name);
+        // Storage::disk('public/PersonalImages')->put($imageName,file_get_contents($request->personal_image));
+        // personal image
+         $request->personal_image->move(public_path('PersonalImages'), $personal_image_name);
         // $path="public/PersonalImages/$personal_image_name";
         // $user->personal_image =$path;
         //card image
@@ -118,15 +125,15 @@ class RegisterController extends BaseController
         // $path="public/CardImages/$card_image_name";
         // $user->card_image =$path;
         //car image
-        $request->car_image->move(public_path('CarImages'), $car_image_name);
+
         // $path="public/CarImages/$car_image_name";
         // $user->car_image =$path;
         // plate image
-        $request->car_plate_image->move(public_path('CarPlateImages'), $car_plate_image_name);
+
         // $path="public/CarPlateImages/$car_plate_image_name";
         // $user->car_plate_image =$path;
         // lincese image
-        $request->car_license_image->move(public_path('CarLicenseImages'), $car_license_image_name);
+
         // $path="public/CarLicenseImages/$car_license_image_name";
         // $user->car_license_image =$path;
         // $user->save();
@@ -138,6 +145,8 @@ class RegisterController extends BaseController
         // //dd($randomNumber);
          $success['email']=$request['email'];
         // $user['code']=$randomNumber;
+
+
         // $user->notify(new EmailVerification());
         return $this->sendResponse($success,"User registered successfully");
 

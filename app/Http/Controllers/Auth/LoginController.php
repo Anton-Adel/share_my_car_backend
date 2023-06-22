@@ -18,10 +18,10 @@ class LoginController extends BaseController
             // $user=User::create($input);
             //$user = Auth::user();
             $user=User::where('email',$request->email)->first();
-            $success['token']=$user->createToken('Anton')->accessToken;
-            $success['data']=$user ;
+            $user['token']=$user->createToken('Anton')->accessToken;
+
             //$user->notify(new EmailVerification());
-            return $this->sendResponse($success,"User login successfully");
+            return $this->sendResponse($user,"User login successfully");
         }
         else
         {

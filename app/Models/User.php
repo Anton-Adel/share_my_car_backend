@@ -31,6 +31,7 @@ class User extends Authenticatable
         'city',
         'address',
         'phone_number',
+        'cluster_number',
         'have_car',
         'car_model',
         'car_color',
@@ -45,6 +46,7 @@ class User extends Authenticatable
         'trip_children',
         'trip_pets',
         'car_license_image',
+        'car_seats',
         'email_verified_at',
         'phone_verified_at'
     ];

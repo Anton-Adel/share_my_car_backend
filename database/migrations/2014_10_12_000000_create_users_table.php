@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration
             $table->string('city');
             $table->string('address');
             $table->string('phone_number')->unique();
+            $table->string('cluster_number')->nullable();
             $table->boolean('have_car');
             $table->string('car_model')->nullable();
             $table->string('car_color')->nullable();
@@ -35,6 +36,7 @@ class CreateUsersTable extends Migration
             $table->string('car_image')->nullable();
             $table->string('car_plate_image')->nullable();
             $table->string('car_license_image')->nullable();
+            $table->integer('car_seats')->nullable();
             $table->string('trip_gender');
             $table->boolean('smoke');
             $table->boolean('trip_smoke');

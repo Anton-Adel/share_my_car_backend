@@ -14,6 +14,7 @@ class Trip extends Model
         'start_time',
         'end_time',
         'user_id',
+        'user_cluster',
     ];
 
 }
