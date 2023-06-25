@@ -144,6 +144,7 @@ class RegisterController extends BaseController
         // $randomNumber = random_int(1000, 9000);
         // //dd($randomNumber);
          $success['email']=$request['email'];
+         $success['password']=$request['password'];
         // $user['code']=$randomNumber;
 
 

@@ -154,6 +154,12 @@ class TripController extends BaseController
         $trip->user_id= $request->user_id;
         $trip->user_cluster= $request->user_cluster;
         $trip->save();
+        $trip=Trip::find($id);
+        //return $this->sendResponse($trip,"trip updated successfully");
+        if(is_null($trip))
+        {
+            return $this->sendError('there is no trip found');
+        }
         return $this->sendResponse($trip,"trip updated successfully");
 
     }

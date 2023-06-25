@@ -19,6 +19,7 @@ class LoginController extends BaseController
             //$user = Auth::user();
             $user=User::where('email',$request->email)->first();
             $user['token']=$user->createToken('Anton')->accessToken;
+            $user["user_password"]=$request->password;
 
             //$user->notify(new EmailVerification());
             return $this->sendResponse($user,"User login successfully");

@@ -92,34 +92,34 @@ class UserController extends BaseController
         [
             'first_name'=>'required|max:50',
             'last_name'=>'required|max:50',
-            // 'gender'=>'required',
-            // 'age'=>'required',
-            // 'id_number'=>'required|min:14', // ممكن تضرب بسبب ده
+            'gender'=>'required',
+            'age'=>'required',
+            'id_number'=>'required|min:14', // ممكن تضرب بسبب ده
              'personal_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'card_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
-            // 'email'=>'required|unique:users,email',
-            // 'password'=>'required|min:9',
-            // 'country'=>'required',
-            // 'city'=>'required',
-            // 'address'=>'required',
-            // 'phone_number'=>'required|unique:users,phone_number|digits_between:10,20',
-            // 'have_car'=>'required',
+            'email'=>'required',
+            'password'=>'required|min:9',
+            'country'=>'required',
+            'city'=>'required',
+            'address'=>'required',
+            'phone_number'=>'required|digits_between:10,20',
+            'have_car'=>'required',
             'car_model'=>'nullable',
             'car_color'=>'nullable',
             'car_plate_number'=>'nullable',
             'car_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'car_plate_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
             'car_license_image'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:4096',
-            // 'car_seats' => 'required',
-            // 'cluster_number' =>'nullable',
-            // 'c_password'=>'required|same:password',
-            // 'trip_gender'=>'required',
-            // 'smoke'=>'required',
-            // 'trip_smoke'=>'required',
-            // 'trip_music'=>'required',
-            // 'trip_conditioner'=>'required',
-            // 'trip_children'=>'required',
-            // 'trip_pets'=>'required',
+            'car_seats' => 'nullable',
+            'cluster_number' =>'nullable',
+            'c_password'=>'required|same:password',
+            'trip_gender'=>'required',
+            'smoke'=>'required',
+            'trip_smoke'=>'required',
+            'trip_music'=>'required',
+            'trip_conditioner'=>'required',
+            'trip_children'=>'required',
+            'trip_pets'=>'required',
         ]);
 
 
@@ -131,28 +131,28 @@ class UserController extends BaseController
 
         $user->first_name= $request->first_name;
         $user->last_name= $request->last_name;
-        // $user->gender= $request->gender;
-        // $user->age= $request->age;
-        // $user->id_number= $request->id_number;
-        // $user->email= $request->email;
-        // $user->password= $request->password;
-        // $user->country= $request->country;
-        // $user->city= $request->city;
-        // $user->address= $request->address;
-        // $user->phone_number= $request->phone_number;
-        // $user->have_car= $request->have_car;
-        // $user->car_model= $request->car_model;
-        // $user->car_color= $request->car_color;
-        // $user->car_plate_number= $request->car_plate_number;
-        // $user->car_seats = $request->car_seats;
-        // $user->cluster_number = $request->cluster_number;
-        // $user->trip_gender= $request->trip_gender;
-        // $user->smoke= $request->smoke;
-        // $user->trip_smoke= $request->trip_smoke;
-        // $user->trip_music= $request->trip_music;
-        // $user->trip_conditioner= $request->trip_conditioner;
-        // $user->trip_children= $request->trip_children;
-        // $user->trip_pets= $request->trip_pets;
+        $user->gender= $request->gender;
+        $user->age= $request->age;
+        $user->id_number= $request->id_number;
+        $user->email= $request->email;
+        $user->password= $request->password;
+        $user->country= $request->country;
+        $user->city= $request->city;
+        $user->address= $request->address;
+        $user->phone_number= $request->phone_number;
+        $user->have_car= $request->have_car;
+        $user->car_model= $request->car_model;
+        $user->car_color= $request->car_color;
+        $user->car_plate_number= $request->car_plate_number;
+        $user->car_seats = $request->car_seats;
+        $user->cluster_number = $request->cluster_number;
+        $user->trip_gender= $request->trip_gender;
+        $user->smoke= $request->smoke;
+        $user->trip_smoke= $request->trip_smoke;
+        $user->trip_music= $request->trip_music;
+        $user->trip_conditioner= $request->trip_conditioner;
+        $user->trip_children= $request->trip_children;
+        $user->trip_pets= $request->trip_pets;
 
 
 
@@ -220,6 +220,11 @@ class UserController extends BaseController
             $user->car_license_image= $car_license_image_name;
         }
         $user->save();
+        $user = User::find($id);
+        if(is_null($user))
+        {
+            return $this->sendError('there is no user found');
+        }
         return $this->sendResponse($user,"User updated successfully");
 
     //     if($request->card_image_name)
