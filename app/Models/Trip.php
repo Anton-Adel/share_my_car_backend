@@ -13,6 +13,8 @@ class Trip extends Model
         'end_location',
         'start_time',
         'end_time',
+        'start_date',
+        'shared_seats',
         'user_id',
         'user_cluster',
     ];

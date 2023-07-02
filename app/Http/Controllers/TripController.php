@@ -43,6 +43,8 @@ class TripController extends BaseController
             'start_location'=>'required',
             'end_location'=>'required',
             'start_time'=>'required',
+            'start_date'=>'required',
+            'shared_seats'=>'nullable',
             'end_time'=>'nullable',
             'user_id'=>'required', // ممكن تضرب بسبب ده
             'user_cluster' => 'required'
@@ -139,6 +141,8 @@ class TripController extends BaseController
             'start_location'=>'required',
             'end_location'=>'required',
             'start_time'=>'required',
+            'start_date'=>'required',
+            'shared_seats'=>'nullable',
             'end_time'=>'nullable',
             'user_id'=>'required', // ممكن تضرب بسبب ده
             'user_cluster' => 'required'
@@ -150,9 +154,19 @@ class TripController extends BaseController
         $trip->start_location= $request->start_location;
         $trip->end_location= $request->end_location;
         $trip->start_time= $request->start_time;
-        $trip->end_time= $request->end_time;
+
+        $trip->start_date= $request->start_date;
+
         $trip->user_id= $request->user_id;
         $trip->user_cluster= $request->user_cluster;
+        if( $request->shared_seats)
+        {
+            $trip->shared_seats= $request->shared_seats;
+        }
+        if($request->end_time)
+        {
+            $trip->end_time= $request->end_time;
+        }
         $trip->save();
         $trip=Trip::find($id);
         //return $this->sendResponse($trip,"trip updated successfully");
