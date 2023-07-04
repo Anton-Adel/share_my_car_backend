@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController as BaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Notifications\ConfirmTrip;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -188,6 +189,35 @@ class RegisterController extends BaseController
     }
 
 
+    public function send_confirm_car(Request $request )
+    {
+        $validator =Validator::make($request->all(),
+        [
+            'first_name'=>"required",
+            'last_name'=>"required",
+            'phone'=>"required",
+            'email'=>'required',
+
+        ]);
+        if($validator->fails())
+        {
+            return $this->sendError('Please your email is required',$validator->errors());
+        }
+        $input=$request->all();
+
+
+        //dd($randomNumber);
+
+        $user= new User();
+
+        $user['phone']=$request['phone'];
+        $user['email']=$request['email'];
+        $user['first_name']=$request['first_name'];
+        $user['last_name']=$request['last_name'];
+
+        $user->notify(new ConfirmTrip());
+        return $this->sendResponse($user,"User confirm the trip successfully");
+    }
 
 
 

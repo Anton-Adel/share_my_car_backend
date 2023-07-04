@@ -17,8 +17,10 @@ class CreateTripsTable extends Migration
            $table->id();
            $table->string('start_location');
            $table->string('end_location');
-           $table->time('start_time');
-           $table->time('end_time')->nullable();
+
+           $table->dateTime('start_time');
+           $table->dateTime('end_time')->nullable();
+
            $table->date('start_date');
            $table->integer('shared_seats')->nullable();
            $table->foreignId('user_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
